@@ -53,3 +53,26 @@ def handel_response(text=str):
 
     # پاسخ پیش‌فرض
     return "I'm sorry, I cannot understand your answer."
+
+# مدیریت خطا ها و پیام هایی که از طرف کاربر وارد میشود
+async def handel_message(update : Update , context : ContextTypes.DEFAULT_TYPE ):
+        if not update.message or not update.message.text : 
+                return
+        messagee = update.message
+        text =  messagee.text
+        chat_type = messagee.chat.type
+
+        print(f'user: {messagee.chat.id}   chat type : {chat_type} ')
+
+        if chat_type in ("group", "supergroup"):
+                if(BOT_USERNAME in text.lower()):
+                        t=text.replace(BOT_USERNAME , '').strip()
+                        response= handel_response(t)
+                else:
+                        return
+        else: 
+                response = handel_response(text)
+                await messagee.reply_text(response)
+                
+async def handel_error(update : Update , context : ContextTypes.DEFAULT_TYPE ):
+          print(f'update : {update}  error : {context.error}')
