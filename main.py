@@ -76,3 +76,16 @@ async def handel_message(update : Update , context : ContextTypes.DEFAULT_TYPE )
                 
 async def handel_error(update : Update , context : ContextTypes.DEFAULT_TYPE ):
           print(f'update : {update}  error : {context.error}')
+
+if __name__ == "__main__":
+    print("bot starting...")
+    
+    app = Application.builder().token(TOKEN).build()
+
+    app.add_handler(CommandHandler("start" , start_command))
+    app.add_handler(CommandHandler("help" , help_command))
+    app.add_handler(CommandHandler("custom" , custom_command))
+    app.add_error_handler(handel_error)
+
+    print("start POlling...")
+    app.run_polling(poll_interval=3)
